@@ -1,0 +1,23 @@
+# Managed by Caravan Road deploy/deploy.sh — shared by the http and https server blocks.
+client_max_body_size 1m;
+
+gzip on;
+gzip_types text/css application/javascript application/json image/svg+xml;
+
+location /static/ {
+    alias __APP_HOME__/static/;
+    # JS modules import each other by unhashed names, so revalidate instead of caching blindly.
+    add_header Cache-Control "no-cache";
+    etag on;
+    access_log off;
+}
+
+location / {
+    proxy_pass http://caravan_app;
+    proxy_set_header Host $host;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Proto $scheme;
+    proxy_set_header X-Forwarded-Host $host;
+    proxy_redirect off;
+    proxy_read_timeout 30s;
+}

@@ -1,0 +1,33 @@
+[Unit]
+Description=Caravan Road (gunicorn)
+Requires=caravan.socket
+After=network.target
+
+[Service]
+Type=notify
+NotifyAccess=main
+User=caravan
+Group=caravan
+WorkingDirectory=__APP_HOME__/app
+EnvironmentFile=/etc/caravan/caravan.env
+ExecStart=__APP_HOME__/venv/bin/gunicorn caravan.wsgi:application \
+    --worker-class gthread --workers 2 --threads 4 --timeout 30 \
+    --access-logfile - --error-logfile -
+ExecReload=/bin/kill -s HUP $MAINPID
+KillMode=mixed
+TimeoutStopSec=10
+Restart=on-failure
+
+# Hardening
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=__APP_HOME__/data
+ProtectKernelTunables=true
+ProtectControlGroups=true
+RestrictSUIDSGID=true
+LockPersonality=true
+
+[Install]
+WantedBy=multi-user.target

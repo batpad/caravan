@@ -1,0 +1,14 @@
+# Socket activation: systemd owns the listening socket, so nginx (www-data) can connect
+# while the app itself runs as the unprivileged "caravan" user. Restarts queue requests
+# instead of dropping them.
+[Unit]
+Description=Caravan Road gunicorn socket
+
+[Socket]
+ListenStream=/run/caravan/gunicorn.sock
+SocketUser=www-data
+SocketGroup=www-data
+SocketMode=0600
+
+[Install]
+WantedBy=sockets.target

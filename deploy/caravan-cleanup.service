@@ -1,0 +1,10 @@
+[Unit]
+Description=Caravan Road: delete stale games
+
+[Service]
+Type=oneshot
+User=caravan
+Group=caravan
+WorkingDirectory=__APP_HOME__/app
+EnvironmentFile=/etc/caravan/caravan.env
+ExecStart=__APP_HOME__/venv/bin/python manage.py cleanup_games
