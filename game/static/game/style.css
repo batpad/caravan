@@ -747,7 +747,7 @@ html.with-tray #toast { bottom: calc(var(--tray-h) + 14px); }
 .char-medallion.small .ic { width: 24px; height: 24px; }
 
 /* ------------------------------------------------------------------ coach marks (tutorial + hints) */
-.coach-layer { position: fixed; inset: 0; pointer-events: none; z-index: 40; }
+#overlay-root > .coach-layer { position: fixed; inset: 0; pointer-events: none; z-index: 40; }
 .coach-layer.hidden { display: none; }
 .coach-spot { position: fixed; pointer-events: none; border-radius: 6px;
   box-shadow: 0 0 0 3px var(--target-hi), 0 0 0 7px rgba(242, 180, 44, .35), 0 0 0 200vmax rgba(8, 12, 32, var(--dim, .4));
